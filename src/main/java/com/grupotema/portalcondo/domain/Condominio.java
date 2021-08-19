@@ -1,35 +1,36 @@
 package com.grupotema.portalcondo.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
-public class Usuario implements Serializable {
+public class Condominio implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String login;
-	private String senha;
-	private String nivel;
 	
-	public Usuario() {
+	@OneToMany(mappedBy="condominio")  /*Um para vários*/
+	private List<Unidade> unidade = new ArrayList<>();
+	
+	public Condominio() {
 	}
 
-	public Usuario(Integer id, String nome, String login, String senha, String nivel) {
+	public Condominio(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.login = login;
-		this.senha = senha;
-		this.nivel = nivel;
 	}
+
 
 	public Integer getId() {
 		return id;
@@ -47,28 +48,12 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getLogin() {
-		return login;
+	public List<Unidade> getUnidade() {
+		return unidade;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public String getNivel() {
-		return nivel;
-	}
-
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
+	public void setUnidade(List<Unidade> unidade) {
+		this.unidade = unidade;
 	}
 
 	@Override
@@ -79,6 +64,7 @@ public class Usuario implements Serializable {
 		return result;
 	}
 
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -87,7 +73,7 @@ public class Usuario implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		Condominio other = (Condominio) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -95,5 +81,4 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
 }

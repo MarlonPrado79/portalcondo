@@ -8,27 +8,26 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Usuario implements Serializable {
+public class Cadastro implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String login;
-	private String senha;
-	private String nivel;
+	private String cpf_cnpj;
+	private String email;
 	
-	public Usuario() {
+	public Cadastro() {
+		
 	}
 
-	public Usuario(Integer id, String nome, String login, String senha, String nivel) {
+	public Cadastro(Integer id, String nome, String cpf_cnpj, String email) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.login = login;
-		this.senha = senha;
-		this.nivel = nivel;
+		this.cpf_cnpj = cpf_cnpj;
+		this.email = email;
 	}
 
 	public Integer getId() {
@@ -47,28 +46,20 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getCpf_cnpj() {
+		return cpf_cnpj;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setCpf_cnpj(String cpf_cnpj) {
+		this.cpf_cnpj = cpf_cnpj;
 	}
 
-	public String getSenha() {
-		return senha;
+	public String getEmail() {
+		return email;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public String getNivel() {
-		return nivel;
-	}
-
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	@Override
@@ -87,7 +78,7 @@ public class Usuario implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		Cadastro other = (Cadastro) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -95,5 +86,5 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
 }
+

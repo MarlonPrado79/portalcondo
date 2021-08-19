@@ -1,34 +1,35 @@
 package com.grupotema.portalcondo.domain;
 
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
-public class Usuario implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class AcessoProp {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String login;
-	private String senha;
-	private String nivel;
 	
-	public Usuario() {
+	@JsonManagedReference
+	@ManyToMany(mappedBy="acessosProp")
+	private List<Proprietario> proprietarios = new ArrayList<>();
+	
+	public AcessoProp() {
+		
 	}
 
-	public Usuario(Integer id, String nome, String login, String senha, String nivel) {
+	public AcessoProp(Integer id, String nome) {
 		super();
 		this.id = id;
-		this.nome = nome;
-		this.login = login;
-		this.senha = senha;
-		this.nivel = nivel;
 	}
 
 	public Integer getId() {
@@ -47,28 +48,12 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	public String getLogin() {
-		return login;
+	public List<Proprietario> getProprietarios() {
+		return proprietarios;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public String getNivel() {
-		return nivel;
-	}
-
-	public void setNivel(String nivel) {
-		this.nivel = nivel;
+	public void setProprietarios(List<Proprietario> proprietarios) {
+		this.proprietarios = proprietarios;
 	}
 
 	@Override
@@ -87,7 +72,7 @@ public class Usuario implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		AcessoProp other = (AcessoProp) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -95,5 +80,4 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
 }
