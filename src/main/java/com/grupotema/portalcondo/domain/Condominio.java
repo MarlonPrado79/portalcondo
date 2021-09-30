@@ -16,11 +16,13 @@ public class Condominio implements Serializable{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Integer id; 
 	private String nome;
 	
-	@OneToMany(mappedBy="condominio")  /*Um para vários*/
-	private List<Unidade> unidade = new ArrayList<>();
+	
+	@OneToMany(mappedBy="condominio")  
+	private List<Unidade> unidades = new ArrayList<>();
+	
 	
 	public Condominio() {
 	}
@@ -30,7 +32,6 @@ public class Condominio implements Serializable{
 		this.id = id;
 		this.nome = nome;
 	}
-
 
 	public Integer getId() {
 		return id;
@@ -48,12 +49,12 @@ public class Condominio implements Serializable{
 		this.nome = nome;
 	}
 
-	public List<Unidade> getUnidade() {
-		return unidade;
+	public List<Unidade> getUnidades() {
+		return unidades;
 	}
 
-	public void setUnidade(List<Unidade> unidade) {
-		this.unidade = unidade;
+	public void setUnidades(List<Unidade> unidades) {
+		this.unidades = unidades;
 	}
 
 	@Override
@@ -63,7 +64,6 @@ public class Condominio implements Serializable{
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
 
 	@Override
 	public boolean equals(Object obj) {

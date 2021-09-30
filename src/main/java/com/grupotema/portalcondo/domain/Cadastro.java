@@ -15,19 +15,15 @@ public class Cadastro implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private String cpf_cnpj;
-	private String email;
 	
 	public Cadastro() {
 		
 	}
 
-	public Cadastro(Integer id, String nome, String cpf_cnpj, String email) {
+	public Cadastro(Integer id, String nome) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.cpf_cnpj = cpf_cnpj;
-		this.email = email;
 	}
 
 	public Integer getId() {
@@ -44,22 +40,6 @@ public class Cadastro implements Serializable{
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getCpf_cnpj() {
-		return cpf_cnpj;
-	}
-
-	public void setCpf_cnpj(String cpf_cnpj) {
-		this.cpf_cnpj = cpf_cnpj;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	@Override
@@ -87,4 +67,3 @@ public class Cadastro implements Serializable{
 		return true;
 	}
 }
-

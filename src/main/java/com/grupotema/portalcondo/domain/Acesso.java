@@ -1,62 +1,56 @@
 package com.grupotema.portalcondo.domain;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.CollectionTable;
-import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.grupotema.portalcondo.domain.enums.Perfil;
 
 @Entity
-public class Usuario implements Serializable {
+public class Acesso implements Serializable {
 	private static final long serialVersionUID = 1L;
-
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
-	
-	@Column(unique=true)
-	private String email;
-	
-	private String login;
+	private Integer nivel;
 
 	@JsonIgnore
-	private String senha;
+	@ManyToOne
+	@JoinColumn(name = "usuario_id")
+	private Usuario usuario;
+	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "propriedade_id")
+	private Propriedade propriedade;
 	
 	@ElementCollection(fetch=FetchType.EAGER)
-	@CollectionTable(name="PERFIS_USUARIO")
+	@CollectionTable(name="PERFIS_ACESSO")
 	private Set<Integer> perfis = new HashSet<>();
 	
-
-	@OneToMany(mappedBy="usuario")
-	private List<Acesso> acessos = new ArrayList<>();
-	
 	/** CONSTRUTOR **/
-	public Usuario() {
+	public Acesso() {
 		addPerfil(Perfil.AUTORIZADO);
 	}
-
-	public Usuario(Integer id, String nome, String email, String login, String senha) {
-		super();
+	
+	public Acesso(Integer id, Integer nivel, Usuario usuario, Propriedade propriedade) {
 		this.id = id;
-		this.nome = nome;
-		this.email = email;
-		this.login = login;
-		this.senha = senha;
+		this.nivel = nivel;
+		this.usuario = usuario;
+		this.propriedade = propriedade;
 		addPerfil(Perfil.AUTORIZADO);
 	}
 
@@ -68,52 +62,36 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public Integer getNivel() {
+		return nivel;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setNivel(Integer nivel) {
+		this.nivel = nivel;
 	}
 
-	public String getEmail() {
-		return email;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setEmail(String email) {
-		this.email = email;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
-	public String getLogin() {
-		return login;
+	public Propriedade getPropriedade() {
+		return propriedade;
 	}
 
-	public void setLogin(String login) {
-		this.login = login;
+	public void setPropriedade(Propriedade propriedade) {
+		this.propriedade = propriedade;
 	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
+	
 	public Set<Perfil> getPerfis(){
 		return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
 	}
 	
 	public void addPerfil(Perfil perfil) {
 		perfis.add(perfil.getCod());
-	}
-
-	public List<Acesso> getAcessos() {
-		return acessos;
-	}
-
-	public void setAcessos(List<Acesso> acessos) {
-		this.acessos = acessos;
 	}
 
 	@Override
@@ -132,7 +110,7 @@ public class Usuario implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Usuario other = (Usuario) obj;
+		Acesso other = (Acesso) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -140,5 +118,4 @@ public class Usuario implements Serializable {
 			return false;
 		return true;
 	}
-
 }

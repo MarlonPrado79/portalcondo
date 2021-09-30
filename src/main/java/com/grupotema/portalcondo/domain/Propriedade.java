@@ -8,32 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
-public class Proprietario implements Serializable {
+public class Propriedade implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
-	private String nome;
-	private String cpf;
-	private String email;
 	
-	@OneToMany(mappedBy="proprietario")
-	private List<Propriedade> propriedades = new ArrayList<>();
+	@OneToMany(mappedBy="propriedade")
+	private List<Acesso> acessos = new ArrayList<>();
 	
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "proprietario_id")
+	private Proprietario proprietario;
+
 	
-	public Proprietario() {
+	/** CONSTRUTOR **/
+	public Propriedade() {
 	}
 
-	public Proprietario(Integer id, String nome, String cpf, String email) {
-		super();
+	public Propriedade(Integer id, Proprietario proprietario) {
 		this.id = id;
-		this.nome = nome;
-		this.cpf = cpf;
-		this.email = email;
+		this.proprietario = proprietario;
 	}
 
 	public Integer getId() {
@@ -44,36 +48,20 @@ public class Proprietario implements Serializable {
 		this.id = id;
 	}
 
-	public String getNome() {
-		return nome;
+	public List<Acesso> getAcessos() {
+		return acessos;
 	}
 
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setAcessos(List<Acesso> acessos) {
+		this.acessos = acessos;
 	}
 
-	public String getCpf() {
-		return cpf;
+	public Proprietario getProprietario() {
+		return proprietario;
 	}
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public List<Propriedade> getPropriedades() {
-		return propriedades;
-	}
-
-	public void setPropriedades(List<Propriedade> propriedades) {
-		this.propriedades = propriedades;
+	public void setProprietario(Proprietario proprietario) {
+		this.proprietario = proprietario;
 	}
 
 	@Override
@@ -92,7 +80,7 @@ public class Proprietario implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Proprietario other = (Proprietario) obj;
+		Propriedade other = (Propriedade) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -100,4 +88,4 @@ public class Proprietario implements Serializable {
 			return false;
 		return true;
 	}
- }
+}
