@@ -35,6 +35,12 @@ public class UsuarioResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	@RequestMapping(value="/email", method=RequestMethod.GET)
+	public ResponseEntity<Usuario> find(@RequestParam(value="value") String email) {
+		Usuario obj = service.findByEmail(email);
+		return ResponseEntity.ok().body(obj);
+	}
+
 	@RequestMapping(value="/acessos/{id}", method=RequestMethod.GET)
 	public ResponseEntity<Usuario> findAcessos(@PathVariable Integer id) {
 		Usuario obj = service.find(id);
